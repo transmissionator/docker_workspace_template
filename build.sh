@@ -10,7 +10,7 @@ docker build --tag workspace files/
 # remove password from dockerfile
 sed -i "s/$password/YOUR-PASSWORD-HERE/g" files/Dockerfile
 
-docker run -it -d --publish 127.0.0.1:5901:5901 \
+docker run -dit --publish 127.0.0.1:5901:5901 \
 --cap-add=NET_ADMIN \
 --device /dev/net/tun \
 --sysctl net.ipv6.conf.all.disable_ipv6=0 \
