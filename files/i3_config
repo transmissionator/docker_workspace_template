@@ -38,6 +38,9 @@ exec --no-startup-id nm-applet
 # set wallpaper
 exec_always --no-startup-id exec feh --bg-scale ~/Pictures/blackarch.jpg
 
+# start picom
+exec_always --no-startup-id exec picom --config /home/transmission/.config/picom/picom.conf -b
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -49,10 +52,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec termite
 
 # open browser
-bindsym $mod+b exec /usr/bin/epiphany
+bindsym $mod+b exec /usr/bin/falkon
 
 # open synapse
 bindsym $mod+F3 exec synapse

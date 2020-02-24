@@ -7,25 +7,28 @@ RUN pacman -Sy --noconfirm archlinux-keyring
 RUN pacman -Syyu --noconfirm
 RUN pacman -S --noconfirm \
     i3status i3-gaps ttf-dejavu termite dmenu compton feh \
-    netcat iproute2 iputils coreutils procps-ng grep awk git \
+    netcat iproute2 iputils coreutils procps-ng grep awk git sudo \
     tigervnc xorg-server xorg-apps xorg-server-xvfb xorg-xinit
 
 # Add blackarch repo
 RUN cd /tmp && curl -O https://blackarch.org/strap.sh && chmod +x strap.sh && ./strap.sh
 
 # Install some additional tools
-RUN pacman -S --noconfirm python nmap epiphany vim openvpn
+RUN pacman -S --noconfirm python nmap falkon vim openvpn
+
+# Add user
+RUN useradd -m transmission
 
 # add some system files
-ADD compton.conf /root/.compton.conf
-ADD i3_config /root/.config/i3/config
-ADD blackarch.jpg /root/Pictures/blackarch.jpg
+ADD picom.conf /home/transmission/.config/picom/picom.conf
+ADD i3_config /home/transmission/.config/i3/config
+ADD blackarch.jpg /home/transmission/Pictures/blackarch.jpg
 
 # tigervnc setup
-WORKDIR /root/
+WORKDIR /home/transmission/
 EXPOSE 5901
-ADD xstartup /root/.vnc/xstartup
-RUN chmod +x /root/.vnc/xstartup
+ADD xstartup /home/transmission/.vnc/xstartup
+RUN chmod +x /home/transmission/.vnc/xstartup
 RUN printf 'YOUR-PASSWORD-HERE\nYOUR-PASSWORD-HERE\nn\n' | vncserver && vncserver -kill :1
 
-CMD ["bash","-c","vncserver"]
+# CMD ["bash","-c","vncserver"]
